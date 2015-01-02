@@ -1,26 +1,30 @@
 <?php
-/**
- * User: mindyk
- * Date: 24.07.12
- * Time: 15:03
- */
 
 include 'assets/sunhours.php';
 
-function getSunHours($zipcode, $aSunHours) {
-
-	if($zipcode < $aSunHours[0][0])
-	{
+/**
+ * @author mindyk
+ * @link http://php.net/manual/ru/function.next.php
+ * @link http://php.net/manual/ru/function.current.php
+ * @param int   $zipcode
+ * @param array $aSunHours
+ * @return int
+ */
+function getSunHours($zipcode, $aSunHours) 
+{
+	$firstArray = current($aSunHours);
+	$firstZip = current($firstArray);
+	
+	if ($zipcode < $firstZip) {
 		return -1;
 	}
 
-	foreach($aSunHours as $a)
+	foreach ($aSunHours as $data) 
 	{
-		if($a[0] == $zipcode)
-		{
-			return $a[1];
+		if (current($data) === $zipcode) {
+			return next($data);
 		}
 	}
 
-	return getSunHours($zipcode-1, $aSunHours);
+	return getSunHours($zipcode - 1, $aSunHours);
 }
